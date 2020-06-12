@@ -3,3 +3,5 @@
 * Wrote the first 99% of the sd card in about 3 minutes, been hanging out at 99% for...awhile. (1915)
 * there we go, just switched to verifying (1916). And done.
 * ha ha, whoops. the pi's only take micro-sd and I bought full sized. :sad_trombone:. And the store is closed, so that wraps it up for today.
+
+continued on [day 1](day_1.md)
