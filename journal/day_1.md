@@ -28,3 +28,5 @@ grr. My first bug. https://github.com/ubuntu/microk8s/issues/728
 Let me see if this fix works...not quite. Also had to go here for a bit more clarity: https://askubuntu.com/questions/1189480/raspberry-pi-4-ubuntu-19-10-cannot-enable-cgroup-memory-at-boostrap . Steve's answer, changing cmdline.txt into a one-liner the the cpuset and whatnot, did it for me
 
 Ok, and at this point, we have a node up and waiting for me to actually put some work on it. Will go for coredns tomorrow. I did notice that helm3 is already a microk8s command, so that's nice. I do wonder/assume? you could also just use helm3?
+
+continued on [day 2](day_2.md)

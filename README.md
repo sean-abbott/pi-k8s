@@ -20,9 +20,20 @@ I don't think I'm being too ambitious with this righ tnow.
     * maybe some triggers for things that I can hit from mobile?
 
 ## Instructions
+These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi)
 1) Follow [the instructions](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) for installing ubuntu server on raspberry pi
 1) ssh to each box and set the same temporary password for ubuntu (i.e., a password you won't use much later. Feel free to make it strong, though, you'll basically never have to type it, as passwordless sudo is on
 1) `cd scripts && TEMP_PASSWORD=yourtemppassword ./setup_key_ssh.sh`
+1) ssh to each box, and 
+    1) edit `/boot/firmware/cmdline.txt` to be `net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc`. Note that this is only necessary for raspberry pi's. I think if i add an x86 or atom or whatever later, this won't be necessary.
+    1) Run `sudo usermod -a -G microk8s ubuntu && sudo chown -f -R ubuntu ~/.kube` on each box.
+    1) Reboot
+1) do the [server and leaf nodes bit](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#5-master-node-and-leaf-nodes) Make sure you notice that you have to run add-node each time on the server, and then join on the workers.
+
+### metallb
+1) change router to have a slightly larger network /23 instead of /24
+1) ensure router's dhcp setup is the same (only giving the network to the original /24)
+1) enable metallb, using an ip range from the other /24 that the router knows about
 
 ## Shutcuts, Techdebt, and security TODOs
 * Chose to use passwordless ssh (more secure) but sudo leave all (less secure)
@@ -36,6 +47,9 @@ I don't think I'm being too ambitious with this righ tnow.
     * setup the user (ubuntu for now) to be able to use kubectl (see [step 2](https://microk8s.io/docs))
     * set the hostnames for when I'm ssh'd in.
     * run the cgroup memory fix
+
+## Things I'd like to work better / figure out better
+* Looks like I'm gonna end up giving half my network to k8s so that I can use metallb, but I probably am ALSO gonna be using ingress controllers for most of the services, so that means that half my IP addresses are gonna be wasted. If I start really enjoying PIoT (Private Internet of Things), then that's likely to cost me later. 
 
 ## Build of Materials
 ### First purchase
