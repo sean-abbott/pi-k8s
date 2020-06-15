@@ -35,6 +35,30 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 1) ensure router's dhcp setup is the same (only giving the network to the original /24)
 1) enable metallb, using an ip range from the other /24 that the router knows about
 
+### dashboard
+# just enable the add-on. See [howtos](HOWTO.md) for details of access.
+
+### external-dns (coredns)
+1) `microk8s enable helm3 dns` (the etcd operator expects clusterdns)
+1) `microk8s kubectl -n kube-system edit configmap/coredns` and replace the dns servers with `1.1.1.1 1.0.0.1` to use cloudflare instead of google.
+1) add an alias in bash_aliases. I just did `alias helm=microk8s helm3`
+1) :sad_trombone: need to get local images and a value overlay and the default chart looks unsupported as of now
+1) ok, to build locally:
+    1) install go and docker (`sudo apt install golang docker.io`)
+    1) `mkdir -p ~/go/{bin,src}`
+    1) `cd ~/go/src && git clone git@github.com:coreos/etcd-operator.git`. Note that this repo is archived and I couldn't find a fedora replacement, so these instructions are already out of date. FML.
+    1) Install go dep with `curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh`. Yeah, I hate it to. I may be missing something here, as well.
+    1) `PATH=$PATH:~/go/bin` you should also add this to your bashrc
+    1) `cd ~/go/src/etcd-operator && ./hack/update_vendor.sh` (this requires dep and will install all the golang dependencies)
+    1) (from the etcd-operator directory) `sed -i -e 's/GOARCH=amd64/GOARCH=arm64' ./hack/lib/build.sh` (you're replacing the amd64 arch with arm64)
+    1) `sudo usermod -a -G docker ubuntu` (next time your reboot you won't need to `sudo` to use docker
+    1) you could probably use the overall build script, but instead, I did `./hack/build/operator/build`, `./hack/build/backup-operator/build` and `./hack/build/restore-operator/build`, which puts output in ./_output, which is where docker expects it
+    1) `sudo docker build -t local-etcd-operator -f hack/build/Dockerfile .` to build the docker file; need to look into autobuilds for docker hub
+    1) ...annnndddd that's it for tonight. we'll find out if this works tomorrow
+1) initialize a helm chart repository `helm repo add stable https://kubernetes-charts.storage.googleapis.com/`
+1) run `helm repo update`
+1) helm3's syntax is slightly different than helm as listed in the coredns example: `helm install etcd-op stable/etcd-operator`
+
 ## Shutcuts, Techdebt, and security TODOs
 * Chose to use passwordless ssh (more secure) but sudo leave all (less secure)
 * Add new user and remove ubuntu user; give new user same rights
