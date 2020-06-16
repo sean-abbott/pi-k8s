@@ -14,9 +14,10 @@ I don't think I'm being too ambitious with this righ tnow.
 * run an internal dns server to make things easier to access
 * run openFaaS and get some triggers based on the world. Temperature. That sort of thing. Maybe later get another pi and use it to water things.
 
+
 ## longer stretch goals
 * make this publicly accessible and serve
-    * a blog?
+    * a blog? maybe gatsby?
     * maybe some triggers for things that I can hit from mobile?
 
 ## Instructions
