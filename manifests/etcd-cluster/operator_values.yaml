@@ -1,0 +1,49 @@
+# creates custom resources, not all required,
+# you could use `helm template --values <values.yaml> --name release_name ... `
+# and create the resources yourself to deploy on your cluster later
+customResources:
+  createEtcdClusterCRD: false
+
+# Select what to deploy
+deployments:
+  etcdOperator: true
+  # one time deployment, delete once completed,
+  # Ref: https://github.com/coreos/etcd-operator/blob/master/doc/user/walkthrough/backup-operator.md
+  backupOperator: false
+  # one time deployment, delete once completed
+  # Ref: https://github.com/coreos/etcd-operator/blob/master/doc/user/walkthrough/restore-operator.md
+  restoreOperator: false
+
+# etcdOperator
+etcdOperator:
+  image:
+    repository: etcd_operator
+    tag: 0.9.4_arm64
+    pullPolicy: Never
+
+# backup spec
+backupOperator:
+  image:
+    repository: etcd_operator
+    tag: 0.9.4_arm64
+    pullPolicy: Never
+
+# restore spec
+restoreOperator:
+  image:
+    repository: etcd_operator
+    tag: 0.9.4_arm64
+    pullPolicy: Never
+
+## etcd-cluster specific values
+etcdCluster:
+  name: etcd-cluster
+  size: 3
+  version: "v3.4.9"
+  image:
+    repository: etcd
+    tag: "v3.4.9"
+    pullPolicy: Never
+  env:
+  - name: ETCD_UNSUPPORTED_ARCH
+    value: "arm64"
