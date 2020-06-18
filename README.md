@@ -1,5 +1,6 @@
 # pi-k8s
 A journey with raspberry pis and k8s. See the [journal](journal/day_0.md) for daily decisions and what not.
+[Say hi](https://github.com/sean-abbott/pi-k8s/issues/1) if you drop by!
 
 I'm intending to try and make everything that I do accessible from here, minus any secrets that I use. This repository is probably going to be ugly, because this is just the learning process for now. Maybe I'll clean up later, but home projects don't tend to last to clean up phase with me.
 
@@ -88,9 +89,6 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 * automate arm64 builds of the etcd operator
     * https://github.com/estesp/manifest-tool  this is used with docker hub to do multi-arch images. An [example usage](https://github.com/rook/rook/blob/master/build/release/Makefile#L179)
 
-## Things I'd like to work better / figure out better
-* Looks like I'm gonna end up giving half my network to k8s so that I can use metallb, but I probably am ALSO gonna be using ingress controllers for most of the services, so that means that half my IP addresses are gonna be wasted. If I start really enjoying PIoT (Private Internet of Things), then that's likely to cost me later. 
-
 ## Notes
 * pi based multi-arch images: https://github.com/raspbernetes/multi-arch-images
 
@@ -106,3 +104,4 @@ To get started on this, I bought:
 This came to ~$350.
 
 (I do intend to buy a case, just figured I'd get it up and running first)
+
