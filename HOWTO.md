@@ -29,3 +29,6 @@ Largely from https://github.com/coreos/etcd-operator/blob/master/doc/user/client
     ETCDCTL_API=3 etcdctl --endpoints http://etcd-client.etcd.svc.cluster.local:2379 del foo
     ```
 
+### add a non-kubernetes domain into coredns
+1) connect to etcdctl.
+1) put json map with "host and ttl values in under a key `/skydns/com/example/subdomain/host`, i.e.: `ETCDCTL_API=3 etcdctl --endpoints http://etcd-client.etcd.svc.cluster.local:2379 put /skydns/com/example/k8s/plex '{"host":"192.168.1.7","ttl":60}'`

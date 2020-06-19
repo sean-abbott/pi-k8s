@@ -68,6 +68,21 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 1) run `helm repo update`
 1) helm3's syntax is slightly different than helm as listed in the coredns example: `helm install etcd-op stable/etcd-operator -f chart_overrides.yaml -n etcd`
 1) `kubectl apply -f etcd-cluster.yaml` You should now have a cluster. congrats!  See [HOWTO.md](HOWTO.md) for how to use / verify it's working.
+1) `cd manifests/external-dns` (we're now working from the manifests/external-dns directory)
+1) add the namespace: `kubectl apply -f ns.yaml`
+1) apply the coredns chart: `helm install ext-coredns --values coredns-values.yaml stable/coredns -n dns` (make sure you edit it for local values around the etc parameters), 
+    ```
+      - name: etcd
+    parameters: example.com
+      stubzones
+      path /skydns
+      endpoint http://etcd-client.etcd.svc.cluster.local:2379
+    ```
+1) apply the coredns loadbalancer manifest: `kubectl apply -f coredns-loadbalancer.yaml`
+1) apply the external dns manifest. We're using an outdated version for now, because the external-dns team hasn't gotten around to arm64: `kubectl apply -f external-dns.yaml`
+1) Finally, show off! Get a test service running: `kubectl apply -f external-dns-validator.yaml` (this sets up a loadbalancer service with the annotations you'll need, make sure to update example.com to your domain name)
+1) For me, I ended up setting the coredns IP made by the coredns-loadbalancer in my router so I get it by default for my network.
+1) see the howtos for how to add a non-kubernetes name into etcd for coredns
 
 ## near future todos
 * set up registry, replace any distribution stuff with registry (or set up dockerhub account and get arm64 builds going on for anything I need)
