@@ -11,11 +11,12 @@ I don't think I'm being too ambitious with this righ tnow.
 * do NOT devolve into lots of sysadmin or trying to make this perfectly replicable
 * Run plex
 * run multiarchitecture, use affinity to run a cups server on my x86 box with the attached printer
-* run a household wiki
-    * maybe (https://wiki.js.org/)?
-    * this manifest has the basics of getting nfs-client-provisioner to work
-* run an internal dns server to make things easier to access
+* ~run a household wiki~ ✓
+    * maybe (https://wiki.js.org/)? ✓
+    * this manifest has the basics of getting nfs-client-provisioner to work ✓
+* ~run an internal dns server to make things easier to access~ ✓
 * run openFaaS and get some triggers based on the world. Temperature. That sort of thing. Maybe later get another pi and use it to water things.
+* run a local ca, maybe using [step ca](https://github.com/smallstep/autocert)
 
 
 ## longer stretch goals
