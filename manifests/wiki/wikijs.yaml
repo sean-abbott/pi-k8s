@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "wikijs"
+  namespace: wiki
+spec:
+  ports:
+    - name: http
+      port: 3000
+  selector:
+    app: "wikijs"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikijs
+  namespace: wiki
+  labels:
+    app: wikijs
+spec:
+  selector:
+    matchLabels:
+      app: wikijs
+  template:
+    metadata:
+      labels:
+        app: wikijs
+    spec:
+      containers:
+      - name: wikijs
+        image: requarks/wiki:latest
+        imagePullPolicy: Always
+        env:
+        - name: DB_TYPE
+          value: "postgres"
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "wiki"
+        - name: DB_USER
+          value: "wiki"
+        - name: DB_PASS
+          value: "changeme"
+        ports:
+        - containerPort: 3000
+          name: http

@@ -13,6 +13,7 @@ I don't think I'm being too ambitious with this righ tnow.
 * run multiarchitecture, use affinity to run a cups server on my x86 box with the attached printer
 * run a household wiki
     * maybe (https://wiki.js.org/)?
+    * this manifest has the basics of getting nfs-client-provisioner to work
 * run an internal dns server to make things easier to access
 * run openFaaS and get some triggers based on the world. Temperature. That sort of thing. Maybe later get another pi and use it to water things.
 
@@ -41,7 +42,7 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 1) enable metallb, using an ip range from the other /24 that the router knows about
 
 ### dashboard
-# just enable the add-on. See [howtos](HOWTO.md) for details of access.
+* just enable the add-on. See [howtos](HOWTO.md) for details of access.
 
 ### external-dns (coredns)
 1) `microk8s enable helm3 dns` (the etcd operator expects clusterdns)
@@ -84,14 +85,41 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 1) For me, I ended up setting the coredns IP made by the coredns-loadbalancer in my router so I get it by default for my network.
 1) see the howtos for how to add a non-kubernetes name into etcd for coredns
 
+### Ingress (with ability to set dns names)
+1) in manifests/ingress, `kubectl apply -f ns.yaml`
+1) Apply the helm chart `helm install ingress stable/nginx-ingress --values values.yaml  -n ingress`
+1) Check to make sure you got an IP for the service (`kubectl -n ingress describe service -l app=nginx-ingress` should show an appropriate external ip from your metallb setup)
+1) apply the `kubectly apply -f test-ingress.yaml`. This should give you a hostname you can resolve at your external dns server above (i.e. `dig @<your dns service ip> test-ingress.my.example.com`). However, note that there are two steps that take awhile here. First, external-dns take a minute or two to pick this up, and THEN dns can take a minute or two. Watch the external-dns logs (`kubectl -n kube-system logs  -l app=external-dns`) to see this happen. Note that it won't happen, I think, until the service is available.
+1) remove the test `kubectl delete -f test-ingress.yam`
+
+### nfs-client-provisioner
+This'll get you persistent volumes for anything you need persistence from. Like databases.
+1) First you need to create an nfs share. That's on you. I'm using my ancient synology nas (128mbs of ram, baby!) and it's working fine.
+1) then you'll need to install nfs-client on each of your nodes. I actually finally started doing ansible for this. I'm gonna leave running ansible outside the bounds of this for now.
+1) install the helm chart: `helm install nfs-provisioner --values values.yaml --set nfs.server=x.x.x.x stable/nfs-client-provisioner -n nfs`
+1) test it. `kubectl apply -f test-claim.yaml; kubectl apply test-pods.yaml` and you should see a text show up in a folder that should be obvious in your nfs 
+1) remove the tests `kubectl delete -f test-claim.yaml test-pod.yaml.`  Note that the nfs client provisioner only archives the folders, it doesn't delete them. This may be a thing to figure out later
+
+
+### wiki
+1) create the namespace `kubectl apply -f ns.yaml`
+1) create the postgres persistent volume claim: `kubectl apply -f postgres-pvc.yaml`
+1) create the postgres configmap `kubectl applyf -f postgres-configmap.yaml`
+1) create the postgres deployment `kubectl apply -f postgres-deployment.yaml`
+1) (see howtos for verification of postgres)
+1) create the wiki `kubectl apply -f wikijs.yaml` (supposedly a chart is "coming soon")
+1) verify it (see [bash_aliases](sugar_files/home_.bash_aliases)) for port forwarding. Feel free to set up the admin user and stuff
+1) add the wikijs service (which is an ingress, which should get you your hostname in external dns as well)
+1) test it by doing to the dns name! woot!  (see the ingress ntoes about how long the dns names take to add and resolve; it can be like 10 minutes, so chill unless you see an error)
+
 ## near future todos
 * set up registry, replace any distribution stuff with registry (or set up dockerhub account and get arm64 builds going on for anything I need)
-* nfs setup for some persistent storage
 * maybe local storage via usb, since sd cards are supposed to not love it. Would actually be used for anything more volatile; registry, microk8s local storage, etc. Maybe even update things so /var (that snap runs out of) is on usb instead of sd card
 
 ## Shutcuts, Techdebt, and security TODOs
 * Chose to use passwordless ssh (more secure) but sudo leave all (less secure)
 * Add new user and remove ubuntu user; give new user same rights
+* setup the bitnami secrets thing so I can stop masking things in this repo
 
 ## Automation i'd like to do
 * Idea: make a little docker file with ansible in it to do more of this initial setup jazz.
@@ -103,6 +131,8 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
     * run the cgroup memory fix
 * automate arm64 builds of the etcd operator
     * https://github.com/estesp/manifest-tool  this is used with docker hub to do multi-arch images. An [example usage](https://github.com/rook/rook/blob/master/build/release/Makefile#L179)
+* nfs-client provisioner only "archives" "volumes", so might need to make it delete them or manually delete them
+* add enough confit to wikijs that I don't have to do admin setup
 
 ## Notes
 * pi based multi-arch images: https://github.com/raspbernetes/multi-arch-images

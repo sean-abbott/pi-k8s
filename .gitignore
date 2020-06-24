@@ -1,2 +1,3 @@
 nodelist.txt
 secrets
+ansible/inventories/production/hosts.yml
