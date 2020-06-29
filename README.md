@@ -27,6 +27,7 @@ I don't think I'm being too ambitious with this righ tnow.
 
 
 ## Instructions
+### RPi
 These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi)
 1) Follow [the instructions](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) for installing ubuntu server on raspberry pi
 1) ssh to each box and set the same temporary password for ubuntu (i.e., a password you won't use much later. Feel free to make it strong, though, you'll basically never have to type it, as passwordless sudo is on
@@ -37,6 +38,25 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
     1) Reboot
 1) do the [server and leaf nodes bit](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#5-master-node-and-leaf-nodes) Make sure you notice that you have to run add-node each time on the server, and then join on the workers.
 
+### x86
+1) install ubuntu server. This has the option to automatically set up passwordless ssh, yes please.
+1) You DO need to set up passwordless sudo. on the box, run `sudo EDITOR=vi visudo -f /etc/sudoers.d/01-k8s-users` and paste in:
+   ```
+   # Allow members of group sudo to execute any command
+   %sudo	ALL=(ALL:ALL) NOPASSWD: ALL
+   ```
+1) Run `sudo usermod -a -G microk8s ubuntu && sudo chown -f -R ubuntu ~/.kube` on each box.
+1) Exit and come back, make sure passwordless sudo works and you can run `microk8s status`
+1) do the [server and leaf nodes bit](https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#5-master-node-and-leaf-nodes) Make sure you notice that you have to run add-node each time on the server, and then join on the workers.
+
+### Near term TODO to make sure mixed architecture is working:
+**Note: all affinities are "or find a mixed arch repo**
+1) Update etcd operator and etcd to have affinity for ARM
+1) Update postgres to have an affinity for arm
+1) update nfs-client-provisioner to have an affinity for arm
+1) double check everything else; there may be others
+
+## Application / useful thing instructions
 ### metallb
 1) change router to have a slightly larger network /23 instead of /24
 1) ensure router's dhcp setup is the same (only giving the network to the original /24)
@@ -118,9 +138,10 @@ This'll get you persistent volumes for anything you need persistence from. Like 
 * maybe local storage via usb, since sd cards are supposed to not love it. Would actually be used for anything more volatile; registry, microk8s local storage, etc. Maybe even update things so /var (that snap runs out of) is on usb instead of sd card
 
 ## Shutcuts, Techdebt, and security TODOs
-* Chose to use passwordless ssh (more secure) but sudo leave all (less secure)
+* Chose to use passwordless ssh (more secure) but leave sudo all (less secure)
 * Add new user and remove ubuntu user; give new user same rights
 * setup the bitnami secrets thing so I can stop masking things in this repo
+* nginx ingress controller default backend is in an endless crash backoff loop. fix that.
 
 ## Automation i'd like to do
 * Idea: make a little docker file with ansible in it to do more of this initial setup jazz.
