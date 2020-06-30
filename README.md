@@ -142,6 +142,8 @@ This'll get you persistent volumes for anything you need persistence from. Like 
 * Add new user and remove ubuntu user; give new user same rights
 * setup the bitnami secrets thing so I can stop masking things in this repo
 * nginx ingress controller default backend is in an endless crash backoff loop. fix that.
+* Postgres: go back to nfsv4, figure out how to get the the persistent volume claim to just use options to request v3
+* wiki: figure out how to populate the ssh key and storage (backup) configuration for the wiki when it starts.
 
 ## Automation i'd like to do
 * Idea: make a little docker file with ansible in it to do more of this initial setup jazz.
@@ -169,6 +171,13 @@ To get started on this, I bought:
 1) a new ethernet switch
 
 This came to ~$350.
+
+### Second purchase
+Bought the 6 pi version of [the bramble case from c4labs](https://www.c4labs.com/product/zebra-bramble-case-raspberry-pi-3-b-color-and-stack-options/). Hasn't shown up yet. Total of $45 with taxes.
+
+### Total monetary cost
+Ha ha, time, tho
+~$400
 
 (I do intend to buy a case, just figured I'd get it up and running first)
 

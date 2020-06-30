@@ -26,4 +26,8 @@ Ok, so the next thing will be to get he listed affinities set up, and then the n
 
 Oh...also need to look into wake on lan for this silly x86 box I've got, 'cause "reboot" failed to actually bring it back up. I had to walk down to the basement and turn it on.
 
+Oh. Oh great. My etcd cluster lost it's cluster IP, which means etcd isn't resolvin, which means coredns isn't working, which means my whole setup just came crashing down.
+
+Fuck. FML.
+
 [day 9](day_9.md)
