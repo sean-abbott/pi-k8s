@@ -1,0 +1,29 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: test-pod
+    image: arm64v8/busybox:latest
+    command:
+      - "/bin/sh"
+    args:
+      - "-c"
+      - "touch /mnt/SUCCESS && exit 0 || exit 1"
+    volumeMounts:
+      - name: nfs-pvc
+        mountPath: "/mnt"
+  restartPolicy: "Never"
+  initContainers:
+  - name: init-volume
+    image: busybox:1.28
+    command: ['sh', '-c', "chown -R 999:999 /mnt"]
+    volumeMounts:
+    - name: nfs-pvc
+      mountPath: "/mnt"
+      readOnly: false
+  volumes:
+    - name: nfs-pvc
+      persistentVolumeClaim:
+        claimName: test-claim-v3

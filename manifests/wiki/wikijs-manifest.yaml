@@ -47,3 +47,19 @@ spec:
         ports:
         - containerPort: 3000
           name: http
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: wiki
+  namespace: wiki
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: wiki.home.houseofthesol.com
+    http:
+      paths:
+      - backend:
+          serviceName: wikijs
+          servicePort: 3000
