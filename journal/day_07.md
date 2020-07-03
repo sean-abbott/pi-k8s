@@ -1,4 +1,4 @@
-[day 6](day_6.md)
+[day 6](day_06.md)
 
 Ok, I actually didn't capture a fair amount of work and rubber ducking here, but I have a wiki up, using the ingress and getting an internal host name. My very first service!
 
@@ -11,4 +11,4 @@ So there were 4 pieces to getting this done.
 
 A big hangup I had was figuring out the relationship between the ingress controller, the desired URL, metallb, and the rest of the system. I'm still not sure why I wouldn't just expose the service for the wiki as a loadbalancer and get it's own hostname and IP, but we went the ingress route. So...cool. Apparently we could do more routin if we needed? And probably if I start doing any kind of like oauth this'll be better. Anyhoo...it's working now, so I'll have to get it swung back around to see the rest of it working.
 
-[day 8](day_8.md)
+[day 8](day_08.md)

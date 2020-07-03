@@ -1,5 +1,5 @@
 # pi-k8s
-A journey with raspberry pis and k8s. See the [journal](journal/day_0.md) for daily decisions and what not.
+A journey with raspberry pis and k8s. See the [journal](journal/day_00.md) for daily decisions and what not.
 [Say hi](https://github.com/sean-abbott/pi-k8s/issues/1) if you drop by!
 
 I'm intending to try and make everything that I do accessible from here, minus any secrets that I use. This repository is probably going to be ugly, because this is just the learning process for now. Maybe I'll clean up later, but home projects don't tend to last to clean up phase with me.

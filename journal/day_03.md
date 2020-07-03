@@ -1,4 +1,4 @@
-[day_2](day_2.md)
+[day 2](day_02.md)
 
 Alrighty. Had a day off for gardening. Likely won't get much time todya. But...gonna start trying external-dns with coredns. Pointing here: https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/coredns.md
 
@@ -55,4 +55,4 @@ Ok, documentation done. Tomorrow, need to start with getting the image into k8s 
 
 But that's it for today.
 
-[day_4.md](day_4.md)
+[day 4](day_04.md)

@@ -1,4 +1,4 @@
-[day 7](day_7.md)
+[day 7](day_07.md)
 Booted up a few of the x86 boxes I had today. One of them is working, one of them (an old atom) was just too effin' slow to bother with, and the other one the nic got burnt out in a power spike and I can't find the usb nic I bought for it, so it's offline unti I buy one.
 
 But today we do a little experiment with multi-arch. And more generally, plus up the early stage ubuntu stuff, 'cause forget doing this stuff manually over and over.
@@ -30,4 +30,4 @@ Oh. Oh great. My etcd cluster lost it's cluster IP, which means etcd isn't resol
 
 Fuck. FML.
 
-[day 9](day_9.md)
+[day 9](day_09.md)

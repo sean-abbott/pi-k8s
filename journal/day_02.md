@@ -1,4 +1,4 @@
-[day 1](day_1.md)
+[day 1](day_01.md)
 Ok, it's really fucking hot outside, so time to stop gardening and start mucking with k8s. It's always a bit disconcerting, for me, at these points. As it stands right now, the system is "working". As soon as I embark on the next piece, it will STOP working, even if I don't break it so bad that what is currently working stops working. It's a state that I find a little daunting at times.
 
 Anyhoo...on to getting external-DNS up, using a coredns installed on the machine. I don't know whether I should do metallb first or etcd...
@@ -22,7 +22,7 @@ Grr...i was made hopeful becaues I was looking at an old version of the docs, an
 
 FUCK YEAH! It works. I gave the router /23, kept it's DHCP the same, and gave metallb the other subnet. Woot!
 
-[day 3](day_3.md)
+[day 3](day_03.md)
 
 Useful links from today:
 https://wiki.wireshark.org/Gratuitous_ARP gives me some hope that metallb will be able to detect conflicts.

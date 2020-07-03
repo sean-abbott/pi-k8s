@@ -1,4 +1,4 @@
-[day 0](day_0.md)
+[day 0](day_00.md)
 Ok, got myself 4 64 bit *micro* SD cards. moving on again.
 Writing ubuntu to it. Took a lot less time. Hit the verify stage after only a minute or so.
 I brought a network cable up to connect directly to the device, but went ahead and just set wifi up on it.
@@ -29,4 +29,4 @@ Let me see if this fix works...not quite. Also had to go here for a bit more cla
 
 Ok, and at this point, we have a node up and waiting for me to actually put some work on it. Will go for coredns tomorrow. I did notice that helm3 is already a microk8s command, so that's nice. I do wonder/assume? you could also just use helm3?
 
-continued on [day 2](day_2.md)
+continued on [day 2](day_02.md)

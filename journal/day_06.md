@@ -1,4 +1,4 @@
-[day 5](day_5.md)
+[day 5](day_05.md)
 
 Got a little time. Ok. Everything is up and smooth today, unlike last time I came back to this. Great.
 
@@ -25,4 +25,4 @@ After that, i think i'll finally be time for real kubernetes toys!
 
 Hmm...as I try and capture everything I did I think Kustomize or something simliar is gonna need to happen soon. Don't want my local values on the interwebs.
 
-[day 7](day_7.md)
+[day 7](day_07.md)

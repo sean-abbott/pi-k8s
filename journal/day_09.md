@@ -1,4 +1,4 @@
-[day 8](day_8.md)
+[day 8](day_08.md)
 Ok, so, managed to fix a few things from yesterday.
 
 First just rebooting the cluster seems to have cleared up the issues I was having, although I'd already mangled some stuff. I'm trying to get things back. 
@@ -21,6 +21,4 @@ Ok, got the database up AND ACTUALLY WORKING, left it with v3 nfs because I am a
 
 The "labor intensity" of getting the github backup setup isn't TOO bad, but I should look to see if there's a way I can populate the files as part of k8s. I'll add that to the techdebt.
 
-
-
-[day 9](day_9.md)
+[day 10](day_10.md)
