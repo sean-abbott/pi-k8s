@@ -29,6 +29,12 @@ Largely from https://github.com/coreos/etcd-operator/blob/master/doc/user/client
     ETCDCTL_API=3 etcdctl --endpoints http://etcd-client.etcd.svc.cluster.local:2379 del foo
     ```
 
+### check on etcd entries for home
+    ```
+    kubectl run --rm -i --tty fun --image docker.io/library/etcd:v3.4.9 --restart=Never -- /bin/sh
+    ETCDCTL_API=3 etcdctl --endpoints http://etcd-client.etcd.svc.cluster.local:2379 get /skydns/com/example --prefix
+    ```
+
 ### add a non-kubernetes domain into coredns
 Note: there's an error message about this in the logs that I need to figure out. I think "owner" needs to be added as well?
 1) connect to etcdctl.

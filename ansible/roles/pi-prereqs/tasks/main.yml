@@ -1,0 +1,36 @@
+---
+- name: upgrade all packages
+  apt:
+    update_cache: yes
+    upgrade: full
+    autoremove: yes
+    # cache is valid for 3 hours
+    cache_valid_time: 10800
+
+- name: set the /boot/firmware/cmdline.txt properly
+  copy:
+    content: 'net.ifnames=0 dwc_otg.lpm_enable=0 console=serial0,115200 cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 console=tty1 root=LABEL=writable rootfstype=ext4 elevator=deadline rootwait fixrtc\n'
+    dest: /boot/firmware/cmdline.txt
+  notify:
+    - reboot
+
+- name: install microk8s snap
+  snap:
+    name: microk8s
+    classic: yes
+    state: present
+
+- name: set up ubuntu user to microk8s group
+  user:
+    name: ubuntu
+    groups: microk8s
+  notify:
+    - reboot
+
+- name: make sure ubuntu own /home/ubuntu/.kube
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes

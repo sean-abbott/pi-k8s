@@ -142,7 +142,7 @@ This'll get you persistent volumes for anything you need persistence from. Like 
 * Add new user and remove ubuntu user; give new user same rights
 * setup the bitnami secrets thing so I can stop masking things in this repo
 * nginx ingress controller default backend is in an endless crash backoff loop. fix that.
-* Postgres: go back to nfsv4, figure out how to get the the persistent volume claim to just use options to request v3
+* wiki/postgres: if I have to recreate this, I will need to do it with the nfs-v3 shares, which is not current annotated 'cause it's still "just working" since it doesn't have to change permissions on an existing volume. (this is after the nfsv4/v3 kerfluffle)
 * wiki: figure out how to populate the ssh key and storage (backup) configuration for the wiki when it starts.
 
 ## Automation i'd like to do
@@ -158,8 +158,14 @@ This'll get you persistent volumes for anything you need persistence from. Like 
 * nfs-client provisioner only "archives" "volumes", so might need to make it delete them or manually delete them
 * add enough confit to wikijs that I don't have to do admin setup
 
+## Food for thought
+* https://www.jeffgeerling.com/blog/2020/uasp-makes-raspberry-pi-4-disk-io-50-faster
+* https://www.reddit.com/r/kubernetes/comments/hkvww4/sinker_a_tool_to_sync_all_of_your_kubernetes/
+* cdk8s
+
 ## Notes
 * pi based multi-arch images: https://github.com/raspbernetes/multi-arch-images
+* OMG yes please: https://www.botkube.io  (monitoring of event for FREEEEEEE)
 
 ## Build of Materials
 ### First purchase
@@ -175,9 +181,13 @@ This came to ~$350.
 ### Second purchase
 Bought the 6 pi version of [the bramble case from c4labs](https://www.c4labs.com/product/zebra-bramble-case-raspberry-pi-3-b-color-and-stack-options/). Hasn't shown up yet. Total of $45 with taxes.
 
+### Third purchase
+1) 2 more RPis
+1) 2 more 64gb  sd cards
+1) 2 more usb-c cables
+
+~ $155 more
+
 ### Total monetary cost
 Ha ha, time, tho
-~$400
-
-(I do intend to buy a case, just figured I'd get it up and running first)
-
+~$555
