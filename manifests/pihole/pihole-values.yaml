@@ -1,0 +1,25 @@
+persistentVolumeClaim:
+  enabled: true
+  existingClaim: "pihole-pv-claim"
+
+DNS1: "10.152.183.2"
+DNS2: "1.1.1.1"
+
+serviceTCP:
+  loadBalancerIP: 192.168.69.1
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+  type: LoadBalancer
+
+serviceUDP:
+  loadBalancerIP: 192.168.69.1
+  annotations:
+    metallb.universe.tf/allow-shared-ip: pihole-svc
+  type: LoadBalancer
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  hosts:
+  - pihole.home.houseofthesol.com

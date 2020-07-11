@@ -44,7 +44,7 @@ spec:
       volumes:
       - name: pv-data
         persistentVolumeClaim:
-          claimName: postgres-pv-claim
+          claimName: postgres-pvc-nfsv3
       initContainers:
       - name: init-volume
         image: busybox:1.28

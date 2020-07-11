@@ -1,0 +1,17 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pihole-pv-claim
+  namespace: pihole
+  labels:
+    app: pihole
+    directory: etc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs-client-v3"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
