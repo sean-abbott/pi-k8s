@@ -17,7 +17,8 @@ spec:
       containers:
       - name: external-dns
         #image: registry.opensource.zalan.do/teapot/external-dns:latest
-        image: vchrisb/external-dns
+        #image: vchrisb/external-dns
+        image: raspbernetes/external-dns
         args:
         - --source=service
         - --source=ingress
