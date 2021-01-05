@@ -1,0 +1,40 @@
+---
+- name: upgrade all packages
+  apt:
+    update_cache: yes
+    upgrade: full
+    autoremove: yes
+    # cache is valid for 3 hours
+    cache_valid_time: 10800
+
+- name: install microk8s snap
+  community.general.snap:
+    name: microk8s
+    classic: yes
+    channel: "{{ microk8s_snap_channel }}"
+    state: present
+
+- name: set up ubuntu user to microk8s group
+  user:
+    name: ubuntu
+    groups: microk8s
+  notify:
+    - reboot
+
+- name: make sure ubuntu own /home/ubuntu/.kube
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    recurse: yes
+
+- name: print hostname
+  tags: verify
+  ansible.builtin.debug:
+    msg: System {{ inventory_hostname }} has assigned_hostname {{ assigned_hostname }}
+    verbosity: 1
+
+- name: set hostname
+  ansible.builtin.hostname:
+    name: "{{ assigned_hostname }}"

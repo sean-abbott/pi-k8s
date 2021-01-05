@@ -66,7 +66,7 @@ These were made by following an [ubuntu tutorial](https://ubuntu.com/tutorials/h
 * just enable the add-on. See [howtos](HOWTO.md) for details of access.
 
 ### external-dns (coredns)
-1) `microk8s enable helm3 dns` (the etcd operator expects clusterdns)
+1) ~`microk8s enable helm3 dns` (the etcd operator expects clusterdns)~ this may be unnecessary now, we're not doing etcd-operator
 1) `microk8s kubectl -n kube-system edit configmap/coredns` and replace the dns servers with `1.1.1.1 1.0.0.1` to use cloudflare instead of google.
 1) add an alias in bash_aliases. I just did `alias helm=microk8s helm3`
 1) :sad_trombone: need to get local images and a value overlay and the default chart looks unsupported as of now

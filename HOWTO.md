@@ -40,7 +40,7 @@ Note: there's an error message about this in the logs that I need to figure out.
 1) connect to etcdctl.
 1) put json map with "host and ttl values in under a key `/skydns/com/example/subdomain/host`, i.e.: `ETCDCTL_API=3 etcdctl --endpoints http://etcd-client.etcd.svc.cluster.local:2379 put /skydns/com/example/k8s/plex '{"host":"192.168.1.7","ttl":60}'`
 
-### verify yoru postgres, or connect to it
+### verify your postgres, or connect to it
 1) `export POSTGRES_PASSWORD=<the password you used>`
 1) `kubectl run pgsql-postgresql-client --rm --tty -i --restart='Never' --namespace wiki --image arm64v8/postgres:12 --env="PGPASSWORD=$POSTGRES_PASSWORD" --command -- psql testdb --host postgres -U wiki -d wiki -p 5432`
 

@@ -1,0 +1,8 @@
+resources:
+- coredns-loadbalancer.yaml
+- coredns-values.yaml
+- external-dns.yaml
+- ns.yaml
+
+#configMapGenerator:
+#- name: <possible certs location>

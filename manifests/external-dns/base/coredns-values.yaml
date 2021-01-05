@@ -31,7 +31,7 @@ prometheus:
     namespace: ""
 
 service:
-# clusterIP: ""
+  clusterIP: "x.x.x.x"
 # loadBalancerIP: ""
 # externalTrafficPolicy: ""
   annotations:
@@ -82,10 +82,12 @@ servers:
       fallthrough in-addr.arpa ip6.arpa
       ttl 30
   - name: etcd
-    parameters: example.com
+    parameters: k8s.example.com
+    configBlock: |-
       stubzones
       path /skydns
-      endpoint http://etcd-client.etcd.svc.cluster.local:2379
+      endpoint http://DEFAULT_IP:2379
+      tls /etc/coredns/etcd_client.crt /etc/coredns/etcd_client.key /etc/coredns/etcd_ca.crt
   # Serves a /metrics endpoint on :9153, required for serviceMonitor
   - name: prometheus
     parameters: 0.0.0.0:9153
