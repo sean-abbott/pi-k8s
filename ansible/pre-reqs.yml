@@ -6,7 +6,6 @@
     - pi-prereqs
 
 - hosts: all
-  become: yes
   gather_facts: no
   roles:
     - prereqs

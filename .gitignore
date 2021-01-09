@@ -1,3 +1,6 @@
 nodelist.txt
 secrets
-ansible/inventories/
+ansible/inventories/*
+!ansible/inventories/example
+ansible/outputs/*
+!ansible/outputs/README

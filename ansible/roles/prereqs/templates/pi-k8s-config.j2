@@ -1,0 +1,11 @@
+# to use from your regular ssh config, copy this to $HOME/.ssh/<filename>
+# and add the line "Include <filename>
+Host {{ groups['all'] | map('extract', hostvars, ['ansible_host']) | join(' ') }}
+    User ubuntu
+
+{% for host in groups['all'] %}
+Host {{ host }}
+  Hostname {{ hostvars[host]['ansible_host'] }}
+  User ubuntu
+
+{% endfor %}

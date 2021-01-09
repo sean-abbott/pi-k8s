@@ -1,5 +1,6 @@
 ---
 - name: upgrade all packages
+  become: yes
   apt:
     update_cache: yes
     upgrade: full
@@ -8,13 +9,15 @@
     cache_valid_time: 10800
 
 - name: install microk8s snap
+  become: yes
   community.general.snap:
     name: microk8s
     classic: yes
-    channel: "{{ microk8s_snap_channel }}"
+    channel: "{{ prereqs_microk8s_snap_channel }}"
     state: present
 
 - name: set up ubuntu user to microk8s group
+  become: yes
   user:
     name: ubuntu
     groups: microk8s
@@ -22,6 +25,7 @@
     - reboot
 
 - name: make sure ubuntu own /home/ubuntu/.kube
+  become: yes
   file:
     path: /home/ubuntu/.kube
     state: directory
@@ -36,5 +40,23 @@
     verbosity: 1
 
 - name: set hostname
+  become: yes
   ansible.builtin.hostname:
     name: "{{ assigned_hostname }}"
+
+- ansible.builtin.set_fact:
+    prereqs_output_filename: "{{ prereqs_ssh_config_output_dir }}/pik8s-{{ stage }}.config"
+  tags:
+    - outputs
+
+- name: output ssh config file
+  tags:
+    - outputs
+  local_action: ansible.builtin.template src=pi-k8s-config.j2 dest="{{ prereqs_output_filename }}"
+  run_once: True
+
+- name: note to user
+  tags:
+    - outputs
+  ansible.builtin.debug:
+    msg: "An ssh config for this {{ stage }} cluster has been output to {{ prereqs_output_filename }}"
