@@ -1,0 +1,6 @@
+---
+- name: remove microk8s
+  become: yes
+  snap:
+    name: microk8s
+    state: absent

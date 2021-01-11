@@ -60,3 +60,4 @@
     - outputs
   ansible.builtin.debug:
     msg: "An ssh config for this {{ stage }} cluster has been output to {{ prereqs_output_filename }}"
+  run_once: True

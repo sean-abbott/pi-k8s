@@ -1,0 +1,28 @@
+---
+- name: create a cluster
+  hosts: all
+  serial: 1
+  gather_facts: False
+
+  tasks:
+    - name: "run add node on the designated server"
+      shell: "microk8s add-node | grep 'microk8s join' | head -1"
+      #shell: echo running add-node
+      register: join_command
+      when: "'servers' not in group_names"
+      delegate_to: "{{ groups['servers'][0] }}" # there should be only one
+
+    - name: "run the join command"
+      shell: "{{ join_command.stdout }}"
+      #shell: echo {{ join_command }}
+      when: "'servers' not in group_names"
+
+- name: check status
+  hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: "get microk8s status"
+      ansible.builtin.command: microk8s status
+      register: status_cmd
+      changed_when: False
